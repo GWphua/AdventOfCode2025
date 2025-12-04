@@ -24,7 +24,7 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	sum := 0
+	sum := int64(0)
 	for scanner.Scan() {
 		text := scanner.Text()
 		ranges := strings.Split(text, ",")
@@ -33,33 +33,47 @@ func main() {
 			sum += findInvalidCount(rangeString)
 		}
 	}
-	
+
 	println(sum)
 }
 
-func findInvalidCount(rangeString string) int {
+func findInvalidCount(rangeString string) int64 {
 	numberRange := strings.Split(rangeString, "-")
 	low, _ := strconv.Atoi(numberRange[0])
-	high,_ := strconv.Atoi(numberRange[1])
+	high, _ := strconv.Atoi(numberRange[1])
 
-	invalidCount := 0
+	invalidCount := int64(0)
 	for i := low; i <= high; i++ {
 		if isInvalidId(i) {
-			invalidCount++
+			invalidCount += int64(i)
 		}
 	}
 
 	return invalidCount
 }
 
-func isInvalidId(i int) bool {
-	numberOfDigits := int(math.Log10(float64(i))) + 1
+func isInvalidId(id int) bool {
+	numberOfDigits := int(math.Log10(float64(id))) + 1
 
-	if numberOfDigits % 2 == 1 {
-		return false
+	for i := 1; i <= numberOfDigits/2; i++ {
+		if numberOfDigits%i == 0 {
+			reductionFactor := int(math.Pow10(i))
+			copyOfId := id
+			target := copyOfId % reductionFactor
+
+			for copyOfId > 0 {
+				if target != copyOfId%reductionFactor {
+					break
+				}
+
+				copyOfId /= reductionFactor
+			}
+
+			if copyOfId == 0 {
+				return true
+			}
+		}
 	}
 
-	power := int(math.Pow10(numberOfDigits / 2))
-
-	return i % power == i / power
+	return false
 }
