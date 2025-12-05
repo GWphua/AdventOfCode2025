@@ -57,9 +57,9 @@ func isInvalidId(id int) bool {
 
 	for i := 1; i <= numberOfDigits/2; i++ {
 		if numberOfDigits%i == 0 {
-			reductionFactor := int(math.Pow10(i))
+			reductionFactor := int(math.Pow10(i)) // 100
 			copyOfId := id
-			target := copyOfId % reductionFactor
+			target := copyOfId % reductionFactor // 42
 
 			for copyOfId > 0 {
 				if target != copyOfId%reductionFactor {
