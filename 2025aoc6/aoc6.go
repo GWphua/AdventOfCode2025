@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	var valuesInString [][]string
 	var values [][]int64
 	var op []string
 	var accumulatedValues []int64
@@ -27,7 +26,6 @@ func main() {
 		if checkIsOperations(homeworkValues) {
 			op = homeworkValues
 		} else {
-			valuesInString = append(valuesInString, homeworkValues)
 			values = append(values, convertAllToNumbers(homeworkValues))
 		}
 	}
