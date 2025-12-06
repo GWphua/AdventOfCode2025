@@ -60,6 +60,10 @@ func main() {
 	}
 
 	println(count)
+
+	if file.Close() != nil {
+		return
+	}
 }
 
 func mergeFreshIngredientIntervals(freshIngredients [][2]int64) [][2]int64 {

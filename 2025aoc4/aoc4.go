@@ -19,6 +19,10 @@ func main() {
 		papers = append(papers, createPapersForRow(line))
 	}
 
+	if file.Close() != nil {
+		return
+	}
+
 	removed := 0
 	currRemoved := 0
 

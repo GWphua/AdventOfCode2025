@@ -24,6 +24,10 @@ func main() {
 	}
 
 	fmt.Println(sum)
+
+	if file.Close() != nil {
+		return
+	}
 }
 
 func getMaximumJoltage(line string) int64 {

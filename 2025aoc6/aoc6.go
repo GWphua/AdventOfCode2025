@@ -30,6 +30,10 @@ func main() {
 		}
 	}
 
+	if file.Close() != nil {
+		return
+	}
+
 	for rowNumber := 0; rowNumber < len(values); rowNumber++ {
 		row := values[rowNumber]
 		for i := 0; i < len(row); i++ {

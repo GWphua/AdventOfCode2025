@@ -35,6 +35,10 @@ func main() {
 	}
 
 	println(sum)
+
+	if file.Close() != nil {
+		return
+	}
 }
 
 func findInvalidCount(rangeString string) int64 {
