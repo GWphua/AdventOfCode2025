@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 )
 
@@ -12,27 +13,25 @@ func main() {
 		panic(err)
 	}
 
-	var row []bool
+	var row []int
 	scanner := bufio.NewScanner(file)
-	split := 0
 	for scanner.Scan() {
 		currentRow := scanner.Text()
 
 		if row == nil {
-			row = make([]bool, len(currentRow))
+			row = make([]int, len(currentRow))
 		}
-		next := make([]bool, len(currentRow))
+		next := make([]int, len(currentRow))
 
 		for index, value := range currentRow {
 			if value == '.' {
-				next[index] = next[index] || row[index]
+				next[index] = next[index] + row[index]
 			} else if value == 'S' {
-				next[index] = true
+				next[index] = 1
 			} else if value == '^' {
-				if row[index] {
-					split += 1
-					setIfInBounds(next, index+1, true)
-					setIfInBounds(next, index-1, true)
+				if row[index] > 0 {
+					addIfInBounds(next, index+1, row[index])
+					addIfInBounds(next, index-1, row[index])
 				}
 			} else {
 				panic("Invalid character in row")
@@ -42,13 +41,19 @@ func main() {
 		row = next
 	}
 
-	println(split)
+	timelines := int64(0)
+
+	for _, value := range row {
+		timelines += int64(value)
+	}
+
+	fmt.Println(timelines)
 }
 
-func setIfInBounds(row []bool, index int, value bool) {
+func addIfInBounds(row []int, index int, value int) {
 	if index > len(row) || index < 0 {
 		return
 	}
 
-	row[index] = value
+	row[index] += value
 }
